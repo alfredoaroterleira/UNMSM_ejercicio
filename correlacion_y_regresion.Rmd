@@ -38,7 +38,7 @@ Evaluamos normalidad
 shapiro.test(parte1$gdp_edu_percent)
 shapiro.test(parte1$gdp_debt_percent)
 ```
-Existe normalidad en ambos, ya que el p-valor es mayor a 0.05, por lo que se debería aplicar Pearson. Por fines académicos, usaremos ambos igual:
+No existe normalidad en ambos, ya que el p-valor es menor a 0.05, por lo que se debería aplicar Spearman. Por fines académicos, usaremos ambos igual:
 
 Recordar que pearson y spearman van de 1 a -1
 
