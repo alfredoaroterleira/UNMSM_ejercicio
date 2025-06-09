@@ -1,0 +1,89 @@
+---
+title: "San_Marcos"
+author: "Alfredo Aro Terleira"
+date: "2025-06-09"
+output: html_document
+---
+
+```{r}
+rm(list = ls()) # limpiar el working environment
+```
+
+# Ejercicio 1
+
+```{r}
+url <- "https://raw.githubusercontent.com/alfredoaroterleira/UNMSM_ejercicio/refs/heads/main/data_part1.csv"
+parte1<- read.csv(url)
+head(parte1)
+```
+
+```{r}
+str(parte1)
+```
+```{r}
+library(ggrepel)
+base=ggplot(data=parte1, aes(x=gdp_edu_percent, y=gdp_debt_percent))
+scatter = base + geom_point()
+scatterText = scatter + geom_text_repel(aes(label=name),size=2)
+scatterText
+```
+
+```{r}
+f1=formula(~gdp_edu_percent + gdp_debt_percent)
+```
+
+Evaluamos normalidad
+
+```{r}
+shapiro.test(parte1$gdp_edu_percent)
+shapiro.test(parte1$gdp_debt_percent)
+```
+Existe normalidad en ambos, ya que el p-valor es mayor a 0.05, por lo que se debería aplicar Pearson. Por fines académicos, usaremos ambos igual:
+
+Recordar que pearson y spearman van de 1 a -1
+
+Usando pearson:
+```{r}
+pearsonf1=cor.test(f1,data=parte1)[c('estimate','p.value')]
+pearsonf1
+```
+
+Usando spearman:
+```{r}
+spearmanf1=cor.test(f1,data=parte1,method='spearman',exact=F)[c('estimate','p.value')]
+spearmanf1
+```
+
+
+
+# Ejercicio 2
+
+```{r}
+url2 <- "https://raw.githubusercontent.com/alfredoaroterleira/UNMSM_ejercicio/refs/heads/main/data_part2.csv"
+parte2<- read.csv(url2)
+head(parte2)
+```
+```{r}
+str(parte2)
+```
+
+
+```{r}
+modelo1=formula(prop_vot_cast ~ Pobreza)
+regre1=lm(modelo1,data=parte2)
+summary(regre1)
+```
+
+```{r}
+modelo2=formula(prop_vot_cast ~ Pobreza + Pobreza.Extrema)
+regre2=lm(modelo2,data=parte2)
+summary(regre2)
+```
+
+Vemos que no afecta la proporción de voto. Ni la pobreza, ni la pobreza extrema
+
+
+
+
+
+
